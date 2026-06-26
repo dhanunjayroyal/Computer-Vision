@@ -1,0 +1,103 @@
+name: SmartVision AI Test Suite
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  selenium-tests:
+    name: "🌐 Selenium — Website E2E"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - name: Run E2E Tests
+        run: python run_tests.py --suite selenium
+
+  appium-tests:
+    name: "📱 Appium — Android Tests"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - name: Run Mobile Tests
+        run: python run_tests.py --suite appium
+
+  api-tests:
+    name: "🔬 Unit Tests — API (300)"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - name: Run API Unit Tests
+        run: python run_tests.py --suite api
+
+  validation-tests:
+    name: "✅ Validation Tests (300)"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - name: Run Validation Tests
+        run: python run_tests.py --suite validation
+
+  deployment-tests:
+    name: "🚀 Deployment Status (300)"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - name: Run Deployment Status Tests
+        run: python run_tests.py --suite deployment
+
+  load-tests:
+    name: "📊 Load Testing — Performance"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - name: Run Load Tests
+        run: python run_tests.py --suite load
+
+  compile-report:
+    name: "📊 Compile Master Report & Deploy"
+    needs: [selenium-tests, appium-tests, api-tests, validation-tests, deployment-tests, load-tests]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - name: Compile Report
+        run: python run_tests.py --suite compile
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./report_output
