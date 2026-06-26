@@ -1,0 +1,47 @@
+# ── Node / Frontend ──
+node_modules/
+frontend/node_modules/
+frontend/dist/
+frontend/.env.local
+frontend/.env.*.local
+frontend/.vite/
+
+# ── Python / Backend ──
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pdb
+*.egg-info/
+dist/
+build/
+.eggs/
+.venv/
+venv/
+env/
+backend/.env
+backend/logs/
+backend/uploads/
+backend/*.db
+backend/*.sqlite3
+backend/alembic/versions/*.pyc
+
+# ── OS & IDE ──
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.idea/
+.vscode/
+*.code-workspace
+
+# ── Misc ──
+*.log
+*.tmp
+.cache/
+coverage/
+.nyc_output/
+.antigravity/
+.venv/
+temp-cv-repo/
+waiter.config.json
